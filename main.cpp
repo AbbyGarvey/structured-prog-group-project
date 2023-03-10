@@ -8,6 +8,107 @@
 
 using namespace std;
 
+void displayInstructions();
+void display(int input[]);
+int total(const int input[]);
+double avg(int input[]);
+int max(const int input[]);
+int min(const int input[]);
+int occurrences(const int input[], int toFind);
+void scale(int input[], double scaleFactor);
+void reverse(int input[]);
+void zeroBase(int input[]);
+
+int main()
+{
+    int option;
+
+    cout << "Please input " << ARRAY_LENGTH << " numbers:\n";
+
+    int array[ARRAY_LENGTH];
+    for (int& i : array)
+    {
+        cin >> i;
+    }
+
+
+    cout << "\nNow please select one of the following operations:\n";
+    displayInstructions();
+
+    do
+    {
+
+        cout << endl;
+        cin >> option;
+
+        switch (option)
+        {
+        case 1:
+            display(array);
+            break;
+        case 2:
+
+            cout << "The sum of this array is " << total(array) << "\n";
+            break;
+        case 3:
+            cout << "The average value in this array is " << avg(array) << "\n";
+            break;
+
+        case 4:
+            cout << "The largest number in this array is " << max(array) << "\n";
+            break;
+
+        case 5:
+            cout << "The smallest number in this array is " << min(array) << "\n";
+            break;
+
+        case 6:
+            int checkOcc;
+            cout << "Input a value to check the occurrence for? ";
+            cin >> checkOcc;
+
+            cout << checkOcc << " occurs in this array " << occurrences(array, checkOcc) << " times" << "\n";
+
+            break;
+
+        case 7:
+            // makes it possible to scale by .5 or .25 ect
+            double toCheck;
+            cout << "Input a value to scale by? ";
+            cin >> toCheck;
+
+            scale(array, toCheck);
+            display(array);
+            break;
+
+        case 8:
+            reverse(array);
+            display(array);
+            break;
+
+        case 9:
+            zeroBase(array);
+            display(array);
+            break;
+
+        case 10:
+            // remove number funtionality
+            break;
+
+        case 11:
+            break;
+
+        default:
+            cout << "ERROR: INVALID INPUT. Please choose from one of the options below\n";
+            displayInstructions();
+        }
+    } while (option != 10);
+
+
+
+    return 0;
+}
+
 int max(const int input[])
 {
     int maximum = input[0];
@@ -137,89 +238,4 @@ void displayInstructions()
     cout << "\t10. EXIT: Quits the application\n";
 }
 
-int main()
-{
-    int option;
-
-    cout << "Please input " << ARRAY_LENGTH << " numbers:\n";
-
-    int array[ARRAY_LENGTH];
-    for (int& i : array)
-    {
-        cin >> i;
-    }
-
-
-    cout << "\nNow please select one of the following operations:\n";
-    displayInstructions();
-
-    do
-    {
-
-        cout << endl;
-        cin >> option;
-
-        switch (option)
-        {
-        case 1:
-            display(array);
-            break;
-        case 2:
-
-            cout << "The sum of this array is " << total(array) << "\n";
-            break;
-        case 3:
-            cout << "The average value in this array is " << avg(array) << "\n";
-            break;
-
-        case 4:
-            cout << "The largest number in this array is " << max(array) << "\n";
-            break;
-
-        case 5:
-            cout << "The smallest number in this array is " << min(array) << "\n";
-            break;
-
-        case 6:
-            int checkOcc;
-            cout << "Input a value to check the occurrence for? ";
-            cin >> checkOcc;
-
-            cout << checkOcc << " occurs in this array " << occurrences(array, checkOcc) << " times" << "\n";
-
-            break;
-
-        case 7:
-            // makes it possible to scale by .5 or .25 ect
-            double toCheck;
-            cout << "Input a value to scale by? ";
-            cin >> toCheck;
-
-            scale(array, toCheck);
-            display(array);
-            break;
-
-        case 8:
-            reverse(array);
-            display(array);
-            break;
-
-        case 9:
-            zeroBase(array);
-            display(array);
-            break;
-
-        case 10:
-            break;
-
-        default:
-            cout << "ERROR: INVALID INPUT. Please choose from one of the options below\n";
-            displayInstructions();
-        }
-    } while (option != 10);
-
-
-
-    return 0;
-}
 
