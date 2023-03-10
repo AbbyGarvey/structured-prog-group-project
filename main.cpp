@@ -1,4 +1,5 @@
 #include <iostream>
+#define ARRAY_LENGTH 12
 
 /*
  Authours: Abigail Garvey, Zander Guilfoyle, Kieran Hosty
