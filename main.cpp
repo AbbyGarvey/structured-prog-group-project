@@ -1,6 +1,5 @@
 #include <iostream>
-#define ARRAY_LENGTH 12
-
+typedef int array[];
 /*
  Authours: Abigail Garvey, Zander Guilfoyle, Kieran Hosty
  Start Date: 10/03/2023 19:22
@@ -8,16 +7,23 @@
 
 using namespace std;
 
+// one global varible isnt too bad practice,,, 
+//however this would be nicer to implement with OOP
+// but oop is unfornatly not the aim of this class ;p
+int ARRAY_LENGTH = 12;
+
 void displayInstructions();
-void display(int input[]);
-int total(const int input[]);
-double avg(int input[]);
-int max(const int input[]);
-int min(const int input[]);
-int occurrences(const int input[], int toFind);
-void scale(int input[], double scaleFactor);
-void reverse(int input[]);
-void zeroBase(int input[]);
+void display(array input);
+int total(const array input);
+double avg(array input);
+int max(const array input);
+int min(const array input);
+int occurrences(const array input, int toFind);
+void scale(array input, double scaleFactor);
+void reverse(array input);
+void zeroBase(array input);
+void removeNumber(array input, int index);
+
 
 int main()
 {
@@ -25,10 +31,10 @@ int main()
 
     cout << "Please input " << ARRAY_LENGTH << " numbers:\n";
 
-    int array[ARRAY_LENGTH];
-    for (int& i : array)
+    int* arr = new int[ARRAY_LENGTH];
+    for (int i = 0;  i < ARRAY_LENGTH; i++)
     {
-        cin >> i;
+        cin >> arr[i];
     }
 
 
@@ -44,22 +50,22 @@ int main()
         switch (option)
         {
         case 1:
-            display(array);
+            display(arr);
             break;
         case 2:
 
-            cout << "The sum of this array is " << total(array) << "\n";
+            cout << "The sum of this array is " << total(arr) << "\n";
             break;
         case 3:
-            cout << "The average value in this array is " << avg(array) << "\n";
+            cout << "The average value in this array is " << avg(arr) << "\n";
             break;
 
         case 4:
-            cout << "The largest number in this array is " << max(array) << "\n";
+            cout << "The largest number in this array is " << max(arr) << "\n";
             break;
 
         case 5:
-            cout << "The smallest number in this array is " << min(array) << "\n";
+            cout << "The smallest number in this array is " << min(arr) << "\n";
             break;
 
         case 6:
@@ -67,7 +73,7 @@ int main()
             cout << "Input a value to check the occurrence for? ";
             cin >> checkOcc;
 
-            cout << checkOcc << " occurs in this array " << occurrences(array, checkOcc) << " times" << "\n";
+            cout << checkOcc << " occurs in this array " << occurrences(arr, checkOcc) << " times" << "\n";
 
             break;
 
@@ -77,23 +83,30 @@ int main()
             cout << "Input a value to scale by? ";
             cin >> toCheck;
 
-            scale(array, toCheck);
-            display(array);
+            scale(arr, toCheck);
+            display(arr);
             break;
 
         case 8:
-            reverse(array);
-            display(array);
+            reverse(arr);
+            display(arr);
             break;
 
         case 9:
-            zeroBase(array);
-            display(array);
+            zeroBase(arr);
+            display(arr);
             break;
 
         case 10:
-            // remove number funtionality
-            break;
+            int index;
+
+            cout << "Select an index to remove (between 0 and " << ARRAY_LENGTH-1 << "): ";
+            cin >> index;
+
+            removeNumber(arr, index);
+            display(arr);
+
+            
 
         case 11:
             break;
@@ -102,7 +115,7 @@ int main()
             cout << "ERROR: INVALID INPUT. Please choose from one of the options below\n";
             displayInstructions();
         }
-    } while (option != 10);
+    } while (option != 11);
 
 
 
@@ -226,16 +239,39 @@ void display(int input[])
 
 void displayInstructions()
 {
-    cout << "\t1: DISPLAY: Displays all of the values in the collection to the computer screen.\n";
-    cout << "\t2. TOTAL: Calculates the total of all the values in the collection.\n";
-    cout << "\t3. AVERAGE: Calculates the average of all the values in the collection.\n";
-    cout << "\t4. LARGEST: Outputs the largest value of all the values in the collection.\n";
-    cout << "\t5. SMALLEST: Outputs the smallest value of all the values in the collection.\n";
-    cout << "\t6. OCCURRENCES OF VALUE: Outputs the number of occurrences of a particular value in the collection\n";
-    cout << "\t7. SCALE UP: Multiplies each value in the collection by the scale factor entered\n";
-    cout << "\t8. REVERSE: Rearranges the contents of the collection so that they are in reverse order.\n";
-    cout << "\t9. ZERO BASE: Adjust all of the values in the collection so that the smallest value will be zero.\n";
-    cout << "\t10. EXIT: Quits the application\n";
+    cout << "\t1:  DISPLAY: Displays all of the values in the collection to the computer screen.\n";
+    cout << "\t2.  TOTAL: Calculates the total of all the values in the collection.\n";
+    cout << "\t3.  AVERAGE: Calculates the average of all the values in the collection.\n";
+    cout << "\t4.  LARGEST: Outputs the largest value of all the values in the collection.\n";
+    cout << "\t5.  SMALLEST: Outputs the smallest value of all the values in the collection.\n";
+    cout << "\t6.  OCCURRENCES OF VALUE: Outputs the number of occurrences of a particular value in the collection\n";
+    cout << "\t7.  SCALE UP: Multiplies each value in the collection by the scale factor entered\n";
+    cout << "\t8.  REVERSE: Rearranges the contents of the collection so that they are in reverse order.\n";
+    cout << "\t9.  ZERO BASE: Adjust all of the values in the collection so that the smallest value will be zero.\n";
+    cout << "\t10. REMOVE NUMBER: Removes index from array.\n";
+    cout << "\t11. EXIT: Quits the application\n";
 }
 
+
+void removeNumber(array input, int index)
+{
+    int* newArr = new int[ARRAY_LENGTH-1];
+
+    int updatedIndex = 0;
+    for (int i = 0; i < ARRAY_LENGTH; i++)
+    {
+        if(index!=i)
+        {
+            // reorder the array 
+            input[updatedIndex] = input[i];
+            updatedIndex++;
+        }
+    }
+
+    //truncate and 
+    ARRAY_LENGTH -= 1;
+    input = newArr;
+
+
+}
 
