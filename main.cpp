@@ -1,4 +1,9 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <iterator>
+
 typedef int array[];
 /*
  Authours: Abigail Garvey, Zander Guilfoyle, Kieran Hosty
@@ -13,6 +18,7 @@ using namespace std;
 int ARRAY_LENGTH = 12;
 
 void displayInstructions();
+void input(int*& arr, bool cmdInput);
 void display(array input);
 int total(const array input);
 double avg(array input);
@@ -28,15 +34,8 @@ void removeNumber(array input, int index);
 int main()
 {
     int option;
-
-    cout << "Please input " << ARRAY_LENGTH << " numbers:\n";
-
     int* arr = new int[ARRAY_LENGTH];
-    for (int i = 0;  i < ARRAY_LENGTH; i++)
-    {
-        cin >> arr[i];
-    }
-
+    input(arr, false);
 
     cout << "\nNow please select one of the following operations:\n";
     displayInstructions();
@@ -120,6 +119,59 @@ int main()
 
 
     return 0;
+}
+
+int countLine(ifstream& file)
+{
+    int ret = 0;
+    string l;
+    while(getline(file, l))
+        ret++;
+    return ret;
+}
+
+void input(int*& arr, bool cmdInput)
+{
+    if(cmdInput)
+    {
+        cout << "Please input " << ARRAY_LENGTH << " numbers:\n";
+
+        for (int i = 0;  i < ARRAY_LENGTH; i++)
+        {
+            cin >> arr[i];
+        }
+        return;
+    }
+
+    
+    ifstream file("Numbers.dat");
+
+    if(!file.is_open())
+    {
+        std::cout << "Invalid File" << std::endl;
+        return;
+    }
+
+    ARRAY_LENGTH = countLine(file);
+    arr = new int[ARRAY_LENGTH];
+
+
+    file.clear();
+    file.seekg(0, file.beg);
+
+
+
+    string line;
+    int index = 0;
+
+    for (int i = 0; i < ARRAY_LENGTH; i++) 
+    {
+        file >> arr[i];
+    }
+
+    file.close();
+
+
 }
 
 int max(const int input[])
