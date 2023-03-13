@@ -6,7 +6,7 @@
 
 typedef int array[];
 /*
- Authours: Abigail Garvey, Zander Guilfoyle, Kieran Hosty
+ Authours: Abigail Garvey, Zander Guilfoyle, Kieran Hosty, Scott Hayes
  Start Date: 10/03/2023 19:22
 */
 
